@@ -29,6 +29,22 @@ var frontpage = [
 	"No message history is retained on the hack.chat server.",
 ].join("\n")
 
+var hccFront = [
+	"",
+	" _           _                     _       _  ",
+	"| |_ ___ ___| |_ ___ ___ ___   ___| |_ ___| |_ ",
+	"|   | .'|  _| '_| -_|  _|_ -|_|  _|   | .'|  _|",
+	"|_|_|__,|___|_,_|___|_| |___|_|___|_|_|__,|_|  ",
+	"A hackers client for hack.chat - by Kate Libby",
+	"Menu:",
+	"Join|Original Homepage|Settings|About",
+	"Popular Channels:",
+	"Channel History:",
+	"Friends:",
+	"Bookmarked Channels",
+	"",
+].join("\n")
+
 function $(query) {return document.querySelector(query)}
 
 
