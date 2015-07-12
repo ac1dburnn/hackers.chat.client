@@ -26,4 +26,8 @@ Modifications by @acidburnn
 - [ ] OTR Chat
 - [ ] PGP Verification
 
+#### 2.5
+- [ ] Code Blocks
+- [ ] Syntax Highlighting
+
 ### Released under GNU General Public License
