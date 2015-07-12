@@ -1,0 +1,154 @@
+body {
+	padding: 0;
+	margin: 0;
+	overflow-y: scroll;
+}
+
+body, input, textarea {
+	font-family: 'DejaVu Sans Mono', monospace;
+	font-size: 12px;
+}
+
+input[type="checkbox"] {
+	margin: 0;
+	margin-right: 1em;
+}
+
+label {
+	// might not be very cross-browser browser
+	vertical-align: 3px;
+}
+
+input, textarea {
+	background: none;
+	border: none;
+	outline: none;
+	resize: none;
+}
+
+h4 {
+	font-size: 12px;
+	margin: 1em 0;
+	font-weight: bold;
+}
+
+pre {
+	tab-size: 2;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
+a {
+	text-decoration: none;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+ul {
+	padding-left: 0;
+	li {
+		list-style: inside;
+	}
+}
+
+.hidden {
+	display: none;
+}
+
+.container {
+	width: 600px;
+	margin: 0 auto;
+}
+
+.messages {
+	border-left: 1px solid;
+}
+
+#messages {
+	padding-top: 2em;
+}
+
+.message {
+	padding-bottom: 1em;
+}
+
+.nick {
+	float: left;
+	width: 10em;
+	margin-left: -11em;
+	margin-right: 1em;
+	text-align: right;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.text {
+	margin: 0;
+	margin-left: 1em;
+}
+
+.text p {
+	margin: 0;
+}
+
+#footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+#chatform {
+	border-top: 1px solid;
+}
+
+#chatinput {
+	width: 100%;
+	padding: 1em;
+	box-sizing: border-box;
+}
+
+#sidebar {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	padding: 1em;
+	border-left: solid 1px;
+}
+
+.sidebar-content {
+	width: 170px;
+}
+
+#hack-sidebar {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	padding: 1em;
+	border-right: solid 1px;
+}
+
+.outline {
+	border: 1px solid rgba(255,255,255,.1);
+}
+
+
+.list-edit {
+	height: 10rem;
+}
+
+.fancy-button {
+	outline: none;
+	background: transparent;
+	color: rgba(0,0,0,.8);
+	border: 1px solid rgba(255,255,255,.1);
+	color: inherit;
+	width: 100%;
+}
+
+.fancy-button:active {
+	background: rgba(255,255,255,.5);
+	color: black;
+}
