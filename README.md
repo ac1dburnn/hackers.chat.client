@@ -12,13 +12,17 @@ Modifications by @acidburnn
 - [ ] Latex Trolling/Exploitation
 - [ ] Useful tools
 - [ ] Logging (because fuck you and your privacy)
+
 #### 1.0
+
 - [ ] Social Interface (Friends)
 - [ ] Bookmarked Channels
 - [ ] Popular Channels
 - [ ] Chan Statistics
 - [ ] Chan Spy
-#### 2.0
+
+##### 2.0
+
 - [ ] OTR Chat
 - [ ] PGP Verification
 
