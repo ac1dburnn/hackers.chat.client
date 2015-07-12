@@ -12,5 +12,10 @@ Modifications by @acidburnn
 - [ ] Latex Trolling/Exploitation
 - [ ] Useful tools
 - [ ] Logging (because fuck you and your privacy)
+- [ ] Social Interface (Friends)
+- [ ] Bookmarked Channels
+- [ ] Popular Channels
+- [ ] Chan Statistics
+- [ ] Chan Spy
 
 ### Released under GNU General Public License
