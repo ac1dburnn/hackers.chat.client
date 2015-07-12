@@ -41,7 +41,7 @@ var hccFront = [
 	"Popular Channels:",
 	"Channel History:",
 	"Friends:",
-	"Bookmarked Channels",
+	"Bookmarked Channels:",
 	"",
 ].join("\n")
 
