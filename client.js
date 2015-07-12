@@ -91,7 +91,7 @@ function join(channel) {
 	}
 
 	ws.onclose = function() {
-		pushMessage('!', "[HCC] Server disconnected - Reconnecting", Date.now(), 'warn')
+		pushMessage('[HCC]', "Server disconnected - Reconnecting", Date.now(), 'warn')
 		if (document.domain == 'hack.chat') {
 			ws = new WebSocket('wss://hack.chat/chat-ws')
 			
