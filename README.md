@@ -11,5 +11,6 @@ Modifications by @acidburrn
 - [ ] Settings w/ Optional Stored Username
 - [ ] Latex Trolling/Exploitation
 - [ ] Useful tools
+- [ ] Logging (because fuck you and your privacy)
 
 ### Released under GNU General Public License
