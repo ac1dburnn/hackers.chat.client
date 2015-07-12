@@ -1,4 +1,8 @@
-var ver = "0.1"
+var ver = "0.7"
+
+var IGNORE = [
+	'foobar'
+]
 
 var frontpage = [
 	"                            _           _         _       _   ",
@@ -7,10 +11,9 @@ var frontpage = [
 	"                           |_|_|__/|___|_,_|.|___|_|_|__/|_|  ",
 	"",
 	"",
-	"Welcome to hack.chat, a minimal, distraction-free chat application.",
-	"You are running hackers.chat.client" + ver
-	"Original code by @AndrewBelt, Custom client by @ac1dburnn"
-	"Channels are created and joined by going to https://hack.chat/?your-channel. There are no channel lists, so a secret channel name can be used for private discussions.",
+	"You are running hackers.chat.client " + ver,
+	"",
+	"Original code by @AndrewBelt, Custom client by @ac1dburnn",
 	"",
 	"Here are some pre-made channels you can join:",
 	"?lobby ?meta ?random",
@@ -18,15 +21,6 @@ var frontpage = [
 	"?math ?physics ?asciiart",
 	"And here's a random one generated just for you: ?" + Math.random().toString(36).substr(2, 8),
 	"",
-	"",
-	"Formatting:",
-	"Whitespace is preserved, so source code can be pasted verbatim.",
-	"Surround LaTeX with a dollar sign for inline style $\\zeta(2) = \\pi^2/6$, and two dollars for display.",
-	"$$\\int_0^1 \\int_0^1 \\frac{1}{1-xy} dx dy = \\frac{\\pi^2}{6}$$",
-	"",
-	"GitHub repo: https://github.com/AndrewBelt/hack.chat",
-	"Server and client released under the GNU General Public License.",
-	"No message history is retained on the hack.chat server.",
 ].join("\n")
 
 var hccFront = [
@@ -35,7 +29,7 @@ var hccFront = [
 	"| |_ ___ ___| |_ ___ ___ ___   ___| |_ ___| |_ ",
 	"|   | .'|  _| '_| -_|  _|_ -|_|  _|   | .'|  _|",
 	"|_|_|__,|___|_,_|___|_| |___|_|___|_|_|__,|_|  ",
-	"A hackers client for hack.chat - by Kate Libby",
+	"A hackers client for hack.chat - by Kate Libby & :^)",
 	"Menu:",
 	"Join|Original Homepage|Settings|About",
 	"Popular Channels:",
@@ -60,19 +54,91 @@ window.onload = function() {
 	}
 }
 
-
 var ws
 var myNick
 var myChannel
 var lastSent = ""
 
-function join(channel) {
-		ws = new WebSocket('wss://hack.chat/chat-ws')
+function getNick() {
+	var saved = localStorage.getItem('nick');
+	if (saved) {
+		return saved
 	}
+	var nick = prompt('Nickname: ')
+	localStorage.setItem('nick', nick)
+	return nick;
+}
 
+function getHistory() {
+	var full =  JSON.parse(localStorage.getItem('history-' + window.location.search) || '[]')
+	return full.slice(full.length - 1000, full.length);
+}
+
+function isNickIgnored(nick) {
+	return getIgnored().indexOf(nick) !== -1;
+}
+
+function isNickFriend(nick) {
+	return getFriends().indexOf(nick) !== -1;
+}
+
+function getItems(elem) {
+	return elem.value.split('\n').map(function (item) {
+		return item.trim();
+	})
+}
+
+function getItemsString(elem) {
+	var items = localStorage.getItem(elem.getAttribute('listName'))
+	console.log('get items', elem.getAttribute('listName'))
+	return JSON.parse(items || '[]').join('\n');
+}
+
+function initListEdit() {
+	var edits = [].slice.call(document.getElementsByClassName('list-edit'));
+	edits.forEach(function (edit) {
+		edit.value = getItemsString(edit)
+		edit.onchange = (function (e) {
+			return function () {
+				localStorage.setItem(e.getAttribute('listName'), JSON.stringify(getItems(e)))
+			}
+		})(edit)
+	})
+}
+
+function getFriends() {
+	return JSON.parse(localStorage.getItem('friends') || '[]')
+}
+
+function getIgnored() {
+	return JSON.parse(localStorage.getItem('ignored') || '[]')
+}
+
+function join(channel) {
+	ws = new WebSocket('wss://hack.chat/chat-ws')
+	
+	initListEdit()
+	
+	// OK time to load history
+	var history = getHistory()
+	history.forEach(function (message) {
+		pushMessage(message.nick, message.text, message.time, 'me')
+	})
 
 	ws.onopen = function() {
-		myNick = prompt('Nickname:')
+		// Get the input element
+		var jsNick = $('.js-nick');
+		myNick = getNick()
+		
+		// Set the content to be our nickname (default '')
+		jsNick.value = localStorage.getItem('nick') || ''
+		
+		// Whenever a key is pressed
+		jsNick.onkeydown = function () {
+			// Store the current value
+			localStorage.setItem('nick', jsNick.value)
+		}
+		
 		if (myNick) {
 			send({cmd: 'join', channel: channel, nick: myNick})
 		}
@@ -84,18 +150,29 @@ function join(channel) {
 		var command = COMMANDS[cmd]
 		command.call(null, args)
 	}
+	
 
 	ws.onclose = function() {
 		pushMessage('[HCC]', "Server disconnected - Reconnecting", Date.now(), 'warn')
-		ws = new WebSocket('wss://hack.chat/chat-ws')
+		setTimeout(function () {
+			join(channel)
+		}, 1000)
 	}
+}
 
+function addToHistory(args) {
+	// Just going to use localStorage
+	var history = getHistory()
+	history.push(args)
+	localStorage.setItem('history', JSON.stringify(history));
+}
 
 var COMMANDS = {
 	chat: function(args) {
+		addToHistory(args);
 		var cls
 		if (args.admin) {
-			cls = 'admin'
+			cls = 'admin'		
 		}
 		else if (myNick == args.nick) {
 			cls = 'me'
@@ -134,6 +211,14 @@ var COMMANDS = {
 
 
 function pushMessage(nick, text, time, cls) {
+	if (isNickIgnored(nick)) {
+		return
+	}
+	
+	if (isNickFriend(nick)) {
+		cls = 'warn';
+	}
+	
 	var messageEl = document.createElement('div')
 	messageEl.classList.add('message')
 	if (cls) {
@@ -151,7 +236,7 @@ function pushMessage(nick, text, time, cls) {
 		insertAtCursor("@" + nick + " ")
 		$('#chatinput').focus()
 	}
-	messageEl.appendChild(nickEl)
+	messageEl.appendChild(nickEl	)
 
 	var textEl = document.createElement('pre')
 	textEl.classList.add('text')
@@ -296,11 +381,11 @@ $('#chatinput').focus()
 
 /* sidebar */
 
-$('#sidebar').onmouseenter = function() {
+$('#sidebar, #hack-sidebar').onmouseenter = function() {
 	$('#sidebar-content').classList.remove('hidden')
 }
 
-$('#sidebar').onmouseleave = function() {
+$('#sidebar, #hack-sidebar').onmouseleave = function() {
 	if (!$('#pin-sidebar').checked) {
 		$('#sidebar-content').classList.add('hidden')
 	}
