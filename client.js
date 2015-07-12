@@ -67,14 +67,9 @@ var myChannel
 var lastSent = ""
 
 function join(channel) {
-	if (document.domain == 'hack.chat') {
-		// For https://hack.chat/
 		ws = new WebSocket('wss://hack.chat/chat-ws')
 	}
-	else {
-		// for local installs
-		ws = new WebSocket('ws://' + document.domain + ':6060')
-	}
+
 
 	ws.onopen = function() {
 		myNick = prompt('Nickname:')
@@ -92,12 +87,7 @@ function join(channel) {
 
 	ws.onclose = function() {
 		pushMessage('[HCC]', "Server disconnected - Reconnecting", Date.now(), 'warn')
-		if (document.domain == 'hack.chat') {
-			ws = new WebSocket('wss://hack.chat/chat-ws')
-			
-		} else {
-			ws = new WebSocket('ws://' + document.domain + ':6060')
-		}
+		ws = new WebSocket('wss://hack.chat/chat-ws')
 	}
 
 
