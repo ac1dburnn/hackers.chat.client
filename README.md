@@ -2,7 +2,7 @@
 Customized/Modified Version of the Hack.Chat client for fun, lulz and profit
 
 Original Client by @AndrewBelt
-Modifications by @acidburrn
+Modifications by @acidburnn
 
 ## Todo
 - [ ] Auto Reconnect
