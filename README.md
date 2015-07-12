@@ -5,7 +5,7 @@ Original Client by @AndrewBelt
 Modifications by @acidburnn
 
 ## Todo
-- [ ] Auto Reconnect
+- [x] Auto Reconnect
 - [ ] Debug Mode
 - [ ] Raw Client Input
 - [ ] Settings w/ Optional Stored Username
