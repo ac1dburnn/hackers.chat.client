@@ -8,14 +8,14 @@ Modifications by @acidburnn
 - [x] Auto Reconnect
 - [ ] Debug Mode
 - [ ] Raw Client Input
-- [ ] Settings w/ Optional Stored Username
+- [x] Settings w/ Optional Stored Username
 - [ ] Latex Trolling/Exploitation
 - [ ] Useful tools
 - [ ] Logging (because fuck you and your privacy)
 
 #### 1.0
 
-- [ ] Social Interface (Friends)
+- [x] Social Interface (Friends)
 - [ ] Bookmarked Channels
 - [ ] Popular Channels
 - [ ] Chan Statistics
